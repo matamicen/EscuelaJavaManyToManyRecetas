@@ -70,6 +70,7 @@ public class maincontroller {
 		System.out.println("id de receta:" + receta.getId());
 		model.addAttribute("receta",receta);
 		model.addAttribute("listaingredientes",daoingrediente.findAll());
+		model.addAttribute("pasos",listaPasos);
 		
 		return "listadeingredientes";
 	}
@@ -104,10 +105,10 @@ public class maincontroller {
 	{
 	
 		//Comienzo a crear receta de Tarta de Jamon	
-	   Receta receta1 = new Receta("Tarta de Jamon");
+	   Receta receta1 = new Receta("Tarta de Jamon2");
 
-       Ingrediente ingrediente1 = new Ingrediente("Jamon","Paladini");
-	   Ingrediente ingrediente2 = new Ingrediente("Masa","La Salteña");
+       Ingrediente ingrediente1 = new Ingrediente("Jamon2","Paladini2");
+	   Ingrediente ingrediente2 = new Ingrediente("Masa2","La Salteña2");
 	   	   
 	   ReceIngre receingre1 = new ReceIngre(receta1,ingrediente1,300,"g");
 	   ReceIngre receingre2 = new ReceIngre(receta1,ingrediente2,600,"g");

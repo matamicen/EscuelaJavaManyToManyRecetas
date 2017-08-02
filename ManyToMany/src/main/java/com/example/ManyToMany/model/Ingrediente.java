@@ -17,6 +17,7 @@ public class Ingrediente {
 	private long id;
 	private String nombre;
 	private String marca;
+	private String url;
 	
 
 	@OneToMany(cascade = CascadeType.ALL, 
@@ -82,6 +83,30 @@ public class Ingrediente {
 	public void agregoReceta(ReceIngre receingre)
 	{
 		this.receingre.add(receingre);
+	}
+
+
+
+	public String getUrl() {
+		return url;
+	}
+
+
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+
+
+	public List<ReceIngre> getReceingre() {
+		return receingre;
+	}
+
+
+
+	public void setReceingre(List<ReceIngre> receingre) {
+		this.receingre = receingre;
 	}
 
 
