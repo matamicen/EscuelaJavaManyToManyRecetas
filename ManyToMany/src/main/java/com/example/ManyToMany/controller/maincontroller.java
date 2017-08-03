@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.ManyToMany.model.DaoIngrediente;
 import com.example.ManyToMany.model.DaoReceIngre;
@@ -19,8 +20,8 @@ import com.example.ManyToMany.services.Pasos;
 
 
 
-
 @org.springframework.stereotype.Controller
+@SessionAttributes("carritopasos")
 public class maincontroller {
 	
 	@Autowired
@@ -30,7 +31,7 @@ public class maincontroller {
 	@Autowired
 	DaoReceIngre daoreceingre;
 	
-	ArrayList<Pasos> listaPasos = new ArrayList<Pasos>();
+	//ArrayList<Pasos> listaPasos = new ArrayList<Pasos>();
 	
 	
 	@RequestMapping(value="/nuevareceta", method = RequestMethod.GET)
@@ -38,23 +39,36 @@ public class maincontroller {
 	{
 		Receta rec = new Receta();
 		model.addAttribute("receta",rec);
+		if(!model.containsAttribute("carritopasos"))
+		{
+            model.addAttribute("carritopasos", new ArrayList<Pasos>());
+        }
+		
+		
+		
+		
 		return "nuevareceta";
 	}
 	
 	@RequestMapping(value="/crearreceta", method = RequestMethod.POST)
-	public String creareceta (Model model, @ModelAttribute Receta receta)
+	public String creareceta (Model model, @ModelAttribute Receta receta,
+			@ModelAttribute("carritopasos") ArrayList<Pasos> listaPasos)
 	{
 		daoreceta.save(receta);
 		System.out.println("id de receta:" + receta.getId());
 		model.addAttribute("receta",receta);
 		model.addAttribute("listaingredientes",daoingrediente.findAll());
 		
+		
+		 model.addAttribute("carritopasos", listaPasos);
+		
 		return "listadeingredientes";
 	}
 	
 	@RequestMapping(value="/agregaingrediente", method = RequestMethod.POST)
 	public String agregaingrediente (Model model, @ModelAttribute Receta receta, 
-			@RequestParam long idingrediente,@RequestParam int qty, @RequestParam String um)
+			@RequestParam long idingrediente,@RequestParam int qty, @RequestParam String um, 
+			@ModelAttribute("carritopasos") ArrayList<Pasos> listaPasos)
 	{
 		//daoreceta.save(receta);
 	// ReceIngre receingre = new ReceIngre(receta,daoingrediente.findOne(idingrediente),qty,um); 
@@ -70,7 +84,8 @@ public class maincontroller {
 		System.out.println("id de receta:" + receta.getId());
 		model.addAttribute("receta",receta);
 		model.addAttribute("listaingredientes",daoingrediente.findAll());
-		model.addAttribute("pasos",listaPasos);
+	//	model.addAttribute("pasos",listaPasos);
+		model.addAttribute("carritopasos", listaPasos);
 		
 		return "listadeingredientes";
 	}
@@ -78,7 +93,7 @@ public class maincontroller {
 	
 	
 	@RequestMapping(value="/grabarpasosreceta", method = RequestMethod.GET)
-	public String grabarpasos (Model model, @RequestParam long id)
+	public String grabarpasos (Model model, @RequestParam long id, @ModelAttribute("carritopasos") ArrayList<Pasos> listaPasos)
 	{
 		Receta rec = daoreceta.findOne(id);
 		for(Pasos pas: listaPasos ){

@@ -23,7 +23,7 @@
 
 <a th:href="@{/grabarpasosreceta(id=${receta.getId()})}"> Grabar los Pasos de la Receta! </a> 
 <br></br>
-<div th:if="${pasos != null}">
+<div th:if="${carritopasos != null}">
 <h3> Pasos de la receta</h3>
 
 <table >
@@ -32,7 +32,8 @@
   	<th>Qty</th>
   	<th>UM</th>   
    </tr> 
-  <tr th:each="p: ${pasos}">
+  <!--  <tr th:each="p: ${pasos}">-->
+   <tr th:each="p: ${carritopasos}">
   	<td th:text="${p.getIngrediente().getNombre()}"></td> 
      <td th:text="${p.getQty()}"></td> 
      <td th:text="${p.getUm()}"></td>
@@ -56,7 +57,8 @@
   	<th>Marca</th>   
  
    </tr> 
-  <tr th:each="ing: ${listaingredientes}">
+   <tr th:each="ing: ${listaingredientes}">
+   
   	<td th:text="${ing.getId()}"></td> 
   	 <td> <img src="#" th:src="@{ ${ing.getUrl()} }" width="60" height="60" />  </td>  
      <td th:text="${ing.getNombre()}"></td> 
